@@ -1,15 +1,19 @@
 {
   "name": "biorxiv-cors",
   "version": "0.0.1",
-  "description": "Simples proxy to allow CORS with biorxiv",
-  "main": "",
+  "description": "Simples proxy to allow CORS with biorxiv for biorxiv-forge",
+  "main": "index.js",
   "dependencies": {
-    "local-cors-proxy": "^1.0.2"
+    "express": "^4.17.1",
+    "request": "^2.88.0",
+    "cors": "^2.8.5",
+    "helmet": "^3.21.2",
+    "command-line-args": "^5.1.1"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Shyam Saladi (saladi@caltech.edu)",
+  "license": "BSD"
 }
