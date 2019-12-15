@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<title>[forge]</title>
+
+<style>
+
+body {
+  background-color:bisque;
+}
+
+#redirect-frame {
+  background-color:white;
+  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:hidden;
+
+  height:100%;
+  width:100%;
+  position:absolute;
+  
+  top:150px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- Start Nav -->
+<nav style="position:fixed;top:0">
+  <ul>
+      <li class="nav-item"><a href="https://github.com/smsaladi/biorxiv-forge">Source code</a></li>
+  </ul>
+</nav>
+<!-- End Nav --> 
+
+<iframe id="redirect-frame"
+  width="100%" height="100%" frameborder="0">
+</iframe>
+
+<!-- annotations plugin -->
+<script src='https://hypothes.is/embed.js'>
+    // /////////////////////////
+    // DESCRIPTION
+    // /////////////////////////
+
+    // This third-party plugin 'Hypothesis' allows public annotation of the
+    // manuscript.
+
+    // https://web.hypothes.is/
+</script>
+
+<!-- plaudit plugin -->
+<script async src="https://plaudit.pub/embed/endorsements.js"
+        data-embedder-id="embedderId"
+></script>
+
+<!-- populate iframe with content -->
+<script>
+// Based on https://github.com/TomTasche/cloudflare-hidden-redirect
+
+(function() {
+
+  if (!window.addEventListener) return // Check for IE9+
+
+  function updateTarget() {
+    var element = document.getElementById("redirect-frame");
+    // `/?` returns the raw content
+    element.src = "/?" + window.location.href.replace(window.location.origin, "");
+    
+    element.onload = function() {
+      // Set window name nicely
+      document.title = document.title + this.contentDocument.title;
+
+      // Set base target so all links reload page (which properly handles iframe)
+      var iframe_head = this.contentDocument.getElementsByTagName("head")[0];
+      var base = iframe_head.getElementsByTagName("base")[0];
+      if (base === undefined) {
+        base = this.contentDocument.createElement("base");
+      }
+      base.setAttribute("target", "_parent");
+      iframe_head.appendChild(base);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", updateTarget);
+  } else {
+    updateTarget();
+  }
+}());
+</script>
+
+</body>
+</html>
