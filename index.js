@@ -40,11 +40,24 @@ app.use('/', function(req, res) {
     if (!req.url.startsWith('http'))
       request_url = proxyUrl + request_url;
 
+    // Be nice and properly set X-forwarded- headers
+    XHeaders(req);
     req.pipe(request(request_url)).pipe(res);
+    
   } else {
     res.sendFile(path.join(__dirname+'/index.html'));
   }
 
 });
+
+// node-http-proxy code as reference (probably could use the module directly...)
+// https://github.com/http-party/node-http-proxy/blob/9bbe486/lib/http-proxy/passes/ws-incoming.js#L52-L67
+function XHeaders(req) {
+  let addr = req.connection.remoteAddress || req.socket.remoteAddress;
+  req.headers['x-forwarded-for'] =
+    (req.headers['x-forwarded-for'] || '') +
+    (req.headers['x-forwarded-for'] ? ',' : '') +
+    addr;
+}
 
 app.listen(options.port);
